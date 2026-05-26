@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppsWith.AI</title>
+  <meta name="description" content="Practical web tools for Finnish businesses.">
+  <meta name="theme-color" content="#2563eb">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+    .lang-btn {
+      font: inherit;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #475569;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .lang-btn:hover { border-color: #cbd5e1; color: #1e293b; }
+    .lang-btn.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+
+    header.brand {
+      margin-bottom: 56px;
+    }
+    .brand h1 {
+      font-size: clamp(2rem, 5vw, 2.6rem);
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .brand p {
+      font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+      color: #475569;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+      margin: 0 0 20px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    @media (min-width: 640px) {
+      .products { grid-template-columns: 1fr 1fr; }
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04),
+                  0 1px 3px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    .card-body {
+      color: #475569;
+      font-size: 0.95rem;
+      margin: 0;
+      flex: 1;
+    }
+    .card-foot {
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+    .badge.live {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-open {
+      display: inline-block;
+      background: #2563eb;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    .btn-open:hover { background: #1d4ed8; }
+    .btn-open::after {
+      content: " →";
+    }
+
+    footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 24px;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    footer p { margin: 4px 0; }
+    .footer-privacy {
+      margin-top: 10px;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar" role="group" aria-label="Language switcher">
+      <button type="button" class="lang-btn" data-lang="fi" aria-label="Suomi">FI</button>
+      <button type="button" class="lang-btn" data-lang="sv" aria-label="Svenska">SV</button>
+      <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+    </div>
+
+    <header class="brand">
+      <h1>AppsWith.AI</h1>
+      <p data-t="tagline"></p>
+    </header>
+
+    <section>
+      <h2 data-t="products_heading"></h2>
+      <div class="products">
+        <article class="card">
+          <div class="card-head">
+            <h3 class="card-title">koti/bo</h3>
+            <span class="badge live" data-t="badge_live"></span>
+          </div>
+          <p class="card-body" data-t="kotibo_body"></p>
+          <div class="card-foot">
+            <a class="btn-open" href="/kotibo" data-t="kotibo_btn"></a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3 class="card-title">Paddy</h3>
+            <span class="badge" data-t="badge_coming"></span>
+          </div>
+          <p class="card-body" data-t="paddy_body"></p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <p>Wanaco Oy Ab · Y-tunnus 3457555-8</p>
+      <p>Coldeco Oy Ab · Y-tunnus 3177276-7</p>
+      <p class="footer-privacy" data-t="privacy"></p>
+    </footer>
+  </div>
+
+  <script>
+    const STRINGS = {
+      fi: {
+        html_lang: 'fi',
+        page_title: 'AppsWith.AI — Käytännöllisiä verkkotyökaluja',
+        tagline: 'Käytännöllisiä verkkotyökaluja suomalaisille yrityksille',
+        products_heading: 'Tuotteet',
+        badge_live: 'Käytössä',
+        badge_coming: 'Tulossa',
+        kotibo_body: 'Taloyhtiön kirjanpito selaimessa. Ei asennuksia, data pysyy omalla koneellasi.',
+        kotibo_btn: 'Avaa koti/bo',
+        paddy_body: 'Taloyhtiön kirjanpito — työpöytäsovellus (tulossa)',
+        privacy: 'Kaikki data tallennetaan käyttäjän omalle laitteelle.',
+      },
+      sv: {
+        html_lang: 'sv',
+        page_title: 'AppsWith.AI — Praktiska webbverktyg',
+        tagline: 'Praktiska webbverktyg för finländska företag',
+        products_heading: 'Produkter',
+        badge_live: 'Live',
+        badge_coming: 'Kommer',
+        kotibo_body: 'Bostadsbolagets bokföring i webbläsaren. Ingen installation, data stannar på din dator.',
+        kotibo_btn: 'Öppna koti/bo',
+        paddy_body: 'Bostadsbolagets bokföring — skrivbordsapp (kommer snart)',
+        privacy: 'All data lagras på användarens egen enhet.',
+      },
+      en: {
+        html_lang: 'en',
+        page_title: 'AppsWith.AI — Practical web tools',
+        tagline: 'Practical web tools for Finnish businesses',
+        products_heading: 'Products',
+        badge_live: 'Live',
+        badge_coming: 'Coming',
+        kotibo_body: 'Housing company accounting in the browser. No installation, your data stays on your device.',
+        kotibo_btn: 'Open koti/bo',
+        paddy_body: 'Housing company accounting — desktop app (coming soon)',
+        privacy: "All data is stored on the user's own device.",
+      },
+    };
+
+    const STORAGE_KEY = 'appswith_lang';
+
+    function detectLang() {
+      const stored = (function () {
+        try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+      })();
+      if (stored && STRINGS[stored]) return stored;
+      const nav = (navigator.language || 'fi').slice(0, 2).toLowerCase();
+      if (STRINGS[nav]) return nav;
+      return 'fi';
+    }
+
+    function applyLang(lang) {
+      const s = STRINGS[lang] || STRINGS.fi;
+      document.documentElement.lang = s.html_lang;
+      document.title = s.page_title;
+      document.querySelectorAll('[data-t]').forEach(function (el) {
+        const key = el.getAttribute('data-t');
+        if (s[key] != null) el.textContent = s[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        const isActive = btn.getAttribute('data-lang') === lang;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLang(btn.getAttribute('data-lang'));
+      });
+    });
+
+    applyLang(detectLang());
+  </script>
+</body>
+</html>
