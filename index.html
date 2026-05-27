@@ -112,8 +112,26 @@
       margin: 0;
       flex: 1;
     }
+    .card-price {
+      color: #0f172a;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin: 0;
+    }
     .card-foot {
       margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-secondary {
+      color: #2563eb;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      text-decoration: underline;
     }
 
     .badge {
@@ -183,8 +201,10 @@
             <span class="badge live" data-t="badge_live"></span>
           </div>
           <p class="card-body" data-t="kotibo_body"></p>
+          <p class="card-price" data-t="kotibo_price"></p>
           <div class="card-foot">
-            <a class="btn-open" href="/kotibo" data-t="kotibo_btn"></a>
+            <a class="btn-open" href="/kotibo/osta" data-t="kotibo_buy"></a>
+            <a class="btn-secondary" href="/kotibo" data-t="kotibo_try"></a>
           </div>
         </article>
       </div>
@@ -207,6 +227,9 @@
         badge_live: 'Käytössä',
         badge_coming: 'Tulossa',
         kotibo_body: 'Taloyhtiön kirjanpito selaimessa. Ei asennuksia, data pysyy omalla koneellasi.',
+        kotibo_price: '99 € aktivointi + 199 €/v',
+        kotibo_buy: 'Osta lisenssi',
+        kotibo_try: 'Tai aloita kokeilu →',
         kotibo_btn: 'Avaa koti/bo',
         paddy_body: 'Taloyhtiön kirjanpito — työpöytäsovellus (tulossa)',
         privacy: 'Kaikki data tallennetaan käyttäjän omalle laitteelle.',
@@ -219,6 +242,9 @@
         badge_live: 'Live',
         badge_coming: 'Kommer',
         kotibo_body: 'Bostadsbolagets bokföring i webbläsaren. Ingen installation, data stannar på din dator.',
+        kotibo_price: '99 € aktivering + 199 €/år',
+        kotibo_buy: 'Köp licens',
+        kotibo_try: 'Eller börja prov →',
         kotibo_btn: 'Öppna koti/bo',
         paddy_body: 'Bostadsbolagets bokföring — skrivbordsapp (kommer snart)',
         privacy: 'All data lagras på användarens egen enhet.',
@@ -231,6 +257,9 @@
         badge_live: 'Live',
         badge_coming: 'Coming',
         kotibo_body: 'Housing company accounting in the browser. No installation, your data stays on your device.',
+        kotibo_price: '€99 activation + €199/yr',
+        kotibo_buy: 'Buy license',
+        kotibo_try: 'Or start trial →',
         kotibo_btn: 'Open koti/bo',
         paddy_body: 'Housing company accounting — desktop app (coming soon)',
         privacy: "All data is stored on the user's own device.",
