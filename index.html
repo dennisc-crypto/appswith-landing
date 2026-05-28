@@ -1,16 +1,588 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
 <meta charset="UTF-8">
-<title>koti/bo</title>
-<script>
-  const lang = navigator.language || navigator.userLanguage || '';
-  if (lang.toLowerCase().startsWith('sv')) {
-    window.location.replace('index.sv.html');
-  } else {
-    window.location.replace('index.fi.html');
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>appswith.ai — AI-sovelluksia arjen tarpeisiin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #111820;
+    --bg3: #161d26;
+    --border: #1e2530;
+    --teal: #1d9e75;
+    --teal-dim: #0f6e56;
+    --teal-glow: rgba(29,158,117,0.12);
+    --text: #e8e6df;
+    --text-dim: #7a8394;
+    --text-muted: #3d4856;
   }
-</script>
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+  .nav-brand span { color: var(--teal); }
+
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+
+  .lang-toggle { display: flex; gap: 2px; }
+  .lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    transition: color 0.15s;
+  }
+  .lang-btn:hover, .lang-btn.active { color: var(--text); }
+  .lang-btn.active { background: var(--bg3); }
+
+  /* HERO */
+  .hero {
+    padding: 100px 32px 80px;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse at center top, rgba(29,158,117,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--teal);
+    border: 0.5px solid var(--teal-dim);
+    background: var(--teal-glow);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .hero-badge::before { content: '✦'; font-size: 9px; }
+
+  .hero-h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .hero-h1 em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 11px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { background: #1d9e75cc; transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 11px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-ghost:hover { border-color: #3d4856; color: var(--text); }
+
+  .hero-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.2px;
+  }
+  .hero-note span { margin: 0 6px; }
+
+  /* DIVIDER */
+  .section-divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin: 0 32px;
+  }
+
+  /* PRODUCTS */
+  .products {
+    padding: 64px 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .product-card {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(29,158,117,0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .product-card:hover {
+    border-color: var(--teal-dim);
+    transform: translateY(-2px);
+    background: #1a2230;
+  }
+  .product-card:hover::before { opacity: 1; }
+
+  .product-card.coming-soon {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .product-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--teal-glow);
+    border: 0.5px solid var(--teal-dim);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: var(--teal);
+  }
+
+  .product-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--teal);
+    background: var(--teal-glow);
+    border: 0.5px solid var(--teal-dim);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .product-tag.soon {
+    color: var(--text-muted);
+    background: none;
+    border-color: var(--border);
+  }
+
+  .product-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .product-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .product-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .product-link::after { content: '→'; transition: transform 0.15s; }
+  .product-card:hover .product-link::after { transform: translateX(3px); }
+
+  /* WHY STRIP */
+  .why-strip {
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 48px 32px;
+  }
+
+  .why-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+  }
+
+  .why-item { }
+  .why-icon { font-size: 20px; color: var(--teal); margin-bottom: 10px; }
+  .why-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .why-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .footer-brand span { color: var(--teal); }
+
+  .footer-legal {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-badge { animation: fadeUp 0.5s ease both; }
+  .hero-h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-cta { animation: fadeUp 0.5s 0.3s ease both; }
+  .hero-note { animation: fadeUp 0.5s 0.4s ease both; }
+
+  .product-card:nth-child(1) { animation: fadeUp 0.5s 0.1s ease both; }
+  .product-card:nth-child(2) { animation: fadeUp 0.5s 0.2s ease both; }
+  .product-card:nth-child(3) { animation: fadeUp 0.5s 0.3s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .hero { padding: 64px 20px 48px; }
+    .products { padding: 48px 20px; }
+    .why-strip { padding: 40px 20px; }
+    footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    .footer-legal { text-align: left; }
+  }
+</style>
 </head>
-<body></body>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">appswith<span>.ai</span></a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fi')">FI</button>
+      <button class="lang-btn" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge" data-i18n="badge">AI-POHJAISET SOVELLUKSET</div>
+  <h1 class="hero-h1" data-i18n="h1">Älykkäitä työkaluja.<br><em>Yksinkertaisesti.</em></h1>
+  <p class="hero-sub" data-i18n="sub">Käytännön AI-sovelluksia jotka oikeasti toimivat — kirjanpidosta huijausten tunnistamiseen. Ei turhaa monimutkaisuutta.</p>
+  <div class="hero-cta">
+    <a href="/scamcheck/signup" class="btn-primary" data-i18n="cta1">Kokeile ilmaiseksi →</a>
+    <a href="#products" class="btn-ghost" data-i18n="cta2">Katso sovellukset</a>
+  </div>
+  <p class="hero-note">
+    <span data-i18n="note1">Ilmainen kokeilu</span>
+    <span>·</span>
+    <span data-i18n="note2">Ei sitoutumista</span>
+    <span>·</span>
+    <span data-i18n="note3">Peruuta milloin tahansa</span>
+  </p>
+</section>
+
+<hr class="section-divider">
+
+<section class="products" id="products">
+  <div class="section-eyebrow" data-i18n="eyebrow">SOVELLUKSET</div>
+  <h2 class="section-title" data-i18n="prod-title">Kaikki mitä tarvitset.<br>Ei mitään ylimääräistä.</h2>
+  <p class="section-sub" data-i18n="prod-sub">Jokainen sovellus on suunniteltu ratkaisemaan yksi ongelma hyvin.</p>
+
+  <div class="product-grid">
+    <a href="/kotibo" class="product-card">
+      <div class="product-icon">🏢</div>
+      <div class="product-tag" data-i18n="tag-live">Saatavilla nyt</div>
+      <div class="product-name">koti/bo</div>
+      <p class="product-desc" data-i18n="kotibo-desc">Taloyhtiön kirjanpito kuntoon. Automaattisesti, selkeästi ja ilman stressiä.</p>
+      <div class="product-link" data-i18n="open-app">Avaa sovellus</div>
+    </a>
+
+    <a href="/scamcheck" class="product-card">
+      <div class="product-icon">🛡️</div>
+      <div class="product-tag" data-i18n="tag-live">Saatavilla nyt</div>
+      <div class="product-name">ScamCheck</div>
+      <p class="product-desc" data-i18n="scamcheck-desc">Tarkista epäilyttävät linkit, puhelinnumerot, sähköpostit ja viestit AI:lla ennen kuin reagoit.</p>
+      <div class="product-link" data-i18n="open-app">Avaa sovellus</div>
+    </a>
+
+    <div class="product-card coming-soon">
+      <div class="product-icon">✦</div>
+      <div class="product-tag soon" data-i18n="tag-soon">Tulossa pian</div>
+      <div class="product-name" data-i18n="soon-name">Uusi sovellus</div>
+      <p class="product-desc" data-i18n="soon-desc">Uusi AI-työkalu kehitteillä. Pysy kuulolla.</p>
+      <div class="product-link" style="color:var(--text-muted)" data-i18n="soon-link">Ilmoita minulle</div>
+    </div>
+  </div>
+</section>
+
+<section class="why-strip">
+  <div class="why-inner">
+    <div class="why-item">
+      <div class="why-icon">⚡</div>
+      <div class="why-title" data-i18n="why1-t">Nopeita tuloksia</div>
+      <p class="why-desc" data-i18n="why1-d">Vastaukset sekunneissa. Ei odottelua, ei monimutkaisuutta.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🔒</div>
+      <div class="why-title" data-i18n="why2-t">Tietosi turvassa</div>
+      <p class="why-desc" data-i18n="why2-d">Emme tallenna mitä syötät. Koskaan. Vain tulos palautuu.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💶</div>
+      <div class="why-title" data-i18n="why3-t">Reilu hinta</div>
+      <p class="why-desc" data-i18n="why3-d">Alle kahvin hinta kuukaudessa. Ilmainen kokeilu aina ensin.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🌍</div>
+      <div class="why-title" data-i18n="why4-t">Suunniteltu ihmisille</div>
+      <p class="why-desc" data-i18n="why4-d">Ei teknistä osaamista tarvita. Toimii heti.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">appswith<span>.ai</span></div>
+  <div class="footer-legal">
+    <span data-i18n="footer-co">Coldeco Oy Ab · Y-tunnus 3177276-7</span><br>
+    <span data-i18n="footer-wanaco">Wanaco Oy Ab · Y-tunnus 3457555-8</span>
+  </div>
+</footer>
+
+<script>
+const L = {
+  fi: {
+    badge: 'AI-POHJAISET SOVELLUKSET',
+    h1: 'Älykkäitä työkaluja.<br><em>Yksinkertaisesti.</em>',
+    sub: 'Käytännön AI-sovelluksia jotka oikeasti toimivat — kirjanpidosta huijausten tunnistamiseen. Ei turhaa monimutkaisuutta.',
+    cta1: 'Kokeile ilmaiseksi →', cta2: 'Katso sovellukset',
+    note1: 'Ilmainen kokeilu', note2: 'Ei sitoutumista', note3: 'Peruuta milloin tahansa',
+    eyebrow: 'SOVELLUKSET',
+    'prod-title': 'Kaikki mitä tarvitset.<br>Ei mitään ylimääräistä.',
+    'prod-sub': 'Jokainen sovellus on suunniteltu ratkaisemaan yksi ongelma hyvin.',
+    'tag-live': 'Saatavilla nyt', 'tag-soon': 'Tulossa pian',
+    'kotibo-desc': 'Taloyhtiön kirjanpito kuntoon. Automaattisesti, selkeästi ja ilman stressiä.',
+    'scamcheck-desc': 'Tarkista epäilyttävät linkit, puhelinnumerot, sähköpostit ja viestit AI:lla ennen kuin reagoit.',
+    'open-app': 'Avaa sovellus',
+    'soon-name': 'Uusi sovellus', 'soon-desc': 'Uusi AI-työkalu kehitteillä. Pysy kuulolla.', 'soon-link': 'Ilmoita minulle',
+    'why1-t': 'Nopeita tuloksia', 'why1-d': 'Vastaukset sekunneissa. Ei odottelua, ei monimutkaisuutta.',
+    'why2-t': 'Tietosi turvassa', 'why2-d': 'Emme tallenna mitä syötät. Koskaan. Vain tulos palautuu.',
+    'why3-t': 'Reilu hinta', 'why3-d': 'Alle kahvin hinta kuukaudessa. Ilmainen kokeilu aina ensin.',
+    'why4-t': 'Suunniteltu ihmisille', 'why4-d': 'Ei teknistä osaamista tarvita. Toimii heti.',
+    'footer-co': 'Coldeco Oy Ab · Y-tunnus 3177276-7', 'footer-wanaco': 'Wanaco Oy Ab · Y-tunnus 3457555-8'
+  },
+  sv: {
+    badge: 'AI-DRIVNA APPAR',
+    h1: 'Smarta verktyg.<br><em>Enkelt.</em>',
+    sub: 'Praktiska AI-appar som faktiskt fungerar — från bokföring till bedrägeriskydd. Ingen onödig komplexitet.',
+    cta1: 'Prova gratis →', cta2: 'Se appar',
+    note1: 'Gratis provperiod', note2: 'Ingen bindning', note3: 'Avsluta när som helst',
+    eyebrow: 'APPAR',
+    'prod-title': 'Allt du behöver.<br>Inget du inte behöver.',
+    'prod-sub': 'Varje app är byggd för att lösa ett problem, och lösa det bra.',
+    'tag-live': 'Tillgänglig nu', 'tag-soon': 'Kommer snart',
+    'kotibo-desc': 'Bostadsbolagets bokföring i skick. Automatiskt, tydligt och utan stress.',
+    'scamcheck-desc': 'Kontrollera misstänkta länkar, telefonnummer, e-post och meddelanden med AI innan du reagerar.',
+    'open-app': 'Öppna appen',
+    'soon-name': 'Ny app', 'soon-desc': 'Ett nytt AI-verktyg är under utveckling. Håll utkik.', 'soon-link': 'Meddela mig',
+    'why1-t': 'Snabba resultat', 'why1-d': 'Svar på sekunder. Ingen väntan, ingen komplexitet.',
+    'why2-t': 'Din data är säker', 'why2-d': 'Vi sparar aldrig vad du skickar in. Aldrig.',
+    'why3-t': 'Rättvist pris', 'why3-d': 'Mindre än en kaffe per månad. Alltid gratis provperiod.',
+    'why4-t': 'Designat för människor', 'why4-d': 'Ingen teknisk kunskap krävs. Fungerar direkt.',
+    'footer-co': 'Coldeco Oy Ab · FO-nummer 3177276-7', 'footer-wanaco': 'Wanaco Oy Ab · FO-nummer 3457555-8'
+  },
+  en: {
+    badge: 'AI-POWERED APPS',
+    h1: 'Smart tools.<br><em>Simply.</em>',
+    sub: 'Practical AI apps that actually work — from bookkeeping to scam protection. No unnecessary complexity.',
+    cta1: 'Try for free →', cta2: 'See apps',
+    note1: 'Free trial', note2: 'No commitment', note3: 'Cancel anytime',
+    eyebrow: 'APPS',
+    'prod-title': 'Everything you need.<br>Nothing you don\'t.',
+    'prod-sub': 'Each app is built to solve one problem, and solve it well.',
+    'tag-live': 'Available now', 'tag-soon': 'Coming soon',
+    'kotibo-desc': 'Housing company bookkeeping in order. Automatic, clear and stress-free.',
+    'scamcheck-desc': 'Check suspicious links, phone numbers, emails and messages with AI before you act.',
+    'open-app': 'Open app',
+    'soon-name': 'New app', 'soon-desc': 'A new AI tool is in development. Stay tuned.', 'soon-link': 'Notify me',
+    'why1-t': 'Fast results', 'why1-d': 'Answers in seconds. No waiting, no complexity.',
+    'why2-t': 'Your data is safe', 'why2-d': 'We never store what you submit. Ever.',
+    'why3-t': 'Fair pricing', 'why3-d': 'Less than a coffee per month. Free trial always first.',
+    'why4-t': 'Built for people', 'why4-d': 'No technical knowledge needed. Works immediately.',
+    'footer-co': 'Coldeco Oy Ab · Business ID 3177276-7', 'footer-wanaco': 'Wanaco Oy Ab · Business ID 3457555-8'
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('appswith_lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === lang.toUpperCase()));
+  const t = L[lang] || L.fi;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.innerHTML = t[key];
+  });
+}
+
+(function init() {
+  const saved = localStorage.getItem('appswith_lang') || 'fi';
+  setLang(saved);
+})();
+</script>
+</body>
 </html>
