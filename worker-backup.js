@@ -1,3 +1,8 @@
+// Cloudflare Worker for appswith.ai
+// DO NOT MODIFY without checking with Claude first
+// Last verified working: June 2026
+// Routes: /kotibo → kotibo.pages.dev, /scamcheck → scamcheck.appswith.ai, / → appswith-landing.pages.dev
+
 export default {
   async fetch(request) {
     const url = new URL(request.url);
