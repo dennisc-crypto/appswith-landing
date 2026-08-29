@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /kotibo/
+Sitemap: https://appswith.ai/sitemap.xml
